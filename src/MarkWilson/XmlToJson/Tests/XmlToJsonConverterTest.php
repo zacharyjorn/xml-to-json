@@ -2,22 +2,24 @@
 
 namespace MarkWilson\XmlToJson\Tests;
 
-class XmlToJsonConverterTest extends \PHPUnit_Framework_TestCase
+use MarkWilson\XmlToJson\XmlToJsonConverter;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+
+class XmlToJsonConverterTest extends TestCase
 {
-    /**
-     * @dataProvider getConvertData
-     */
-    public function testConvert($xmlString, $expectedJson)
+    #[DataProvider('getConvertData')]
+    public function testConvert(string $xmlString, string $expectedJson): void
     {
         $xml = new \SimpleXMLElement($xmlString);
 
-        $converter = new \MarkWilson\XmlToJson\XmlToJsonConverter();
+        $converter = new XmlToJsonConverter();
         $json = $converter->convert($xml);
 
         $this->assertEquals($expectedJson, $json);
     }
 
-    public function getConvertData()
+    public static function getConvertData(): array
     {
         return [
             [
@@ -52,20 +54,18 @@ class XmlToJsonConverterTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @dataProvider getAsArrayData
-     */
-    public function testAsArray($xmlString, $expectedArray)
+    #[DataProvider('getAsArrayData')]
+    public function testAsArray(string $xmlString, array $expectedArray): void
     {
         $xml = new \SimpleXMLElement($xmlString);
 
-        $converter = new \MarkWilson\XmlToJson\XmlToJsonConverter();
+        $converter = new XmlToJsonConverter();
         $array = $converter->asArray($xml);
 
         $this->assertEquals($expectedArray, $array);
     }
 
-    public function getAsArrayData()
+    public static function getAsArrayData(): array
     {
         return [
             [
